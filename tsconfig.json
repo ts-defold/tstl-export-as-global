@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "lib": ["es2019"],
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "declaration": false,
+        "sourceMap": false,
+        "newLine": "LF",
+        "stripInternal": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "rootDir": "src",
+        "outDir": "dist",
+    },
+    "exclude": ["./node_modules/*", "./dist/*", "./tests/*"]
+}

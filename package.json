@@ -1,0 +1,47 @@
+{
+  "name": "@ts-defold/tstl-export-as-global-plugin",
+  "version": "0.0.1",
+  "description": "TypeScriptToLua plugin that transforms exports into globals",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ts-defold/tstl-export-as-global-plugin.git"
+  },
+  "keywords": [
+    "typescript",
+    "lua",
+    "defold"
+  ],
+  "author": "Justin Walsh (@thejustinwalsh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ts-defold/tstl-export-as-global-plugin/issues"
+  },
+  "homepage": "https://github.com/ts-defold/tstl-export-as-global-plugin#readme",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*.js"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "typescript": "^3.9.2",
+    "typescript-to-lua": "^0.35.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "jest": "^26.5.3",
+    "ts-jest": "^26.4.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^3.9.7",
+    "typescript-to-lua": "^0.35.0"
+  },
+  "dependencies": {}
+}

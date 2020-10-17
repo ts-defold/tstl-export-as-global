@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`assigns globals 1`] = `
+"--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local function no_export(self)
+    local ____ = \\"not-exported\\"
+end
+function ____exports.init(self)
+    no_export(nil)
+    local ____ = \\"init\\"
+end
+function ____exports.update(self, dt)
+    local val = dt * 100
+    local ____ = val * val
+end
+function ____exports.exported(self)
+    local ____ = \\"exported\\"
+end
+init = ____exports.init
+update = ____exports.update
+
+"
+`;
+
+exports[`works 1`] = `
+"--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local function no_export(self)
+    local ____ = \\"not-exported\\"
+end
+function ____exports.init(self)
+    no_export(nil)
+    local ____ = \\"init\\"
+end
+function ____exports.update(self, dt)
+    local val = dt * 100
+    local ____ = val * val
+end
+function ____exports.exported(self)
+    local ____ = \\"exported\\"
+end
+init = ____exports.init
+update = ____exports.update
+
+"
+`;
