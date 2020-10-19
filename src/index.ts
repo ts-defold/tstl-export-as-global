@@ -44,10 +44,10 @@ export default function(options: PluginOptions): tstl.Plugin {
           return super.printFunctionDefinition(statement);
         }
         
-        // Hook the printing of the return to swap it with a block of exports for the API interface
+        // Hook the printing of the return to swap it with a block of exports for the API interface (only for matching script types)
         public printReturnStatement(statement: tstl.ReturnStatement): SourceNode {
           const identifier = (statement as tstl.ReturnStatement).expressions[0] as Identifier;
-          if (identifier.exportable && identifier.text === "____exports") {
+          if (fileMatcher.test(fileName) && identifier.exportable && identifier.text === "____exports") {
             const injectedStatements = this.exportedMethodNames.map(n => tstl.createAssignmentStatement(tstl.createIdentifier(n), tstl.createIdentifier(`____exports.${n}`)));
             return super.printBlock(tstl.createBlock(injectedStatements));
           }

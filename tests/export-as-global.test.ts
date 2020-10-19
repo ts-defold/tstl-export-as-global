@@ -7,6 +7,15 @@ it("assigns globals", async () => {
 	expect(result.diagnostics).toHaveLength(0);
 
 
-	const lua = readFileSync(path.join(__dirname, "out", "test.script.lua"), "utf-8");
+	const lua = readFileSync(path.join(__dirname, "out", "tests", "test.script.lua"), "utf-8");
+    expect(lua).toMatchSnapshot();
+});
+
+it("works with modules", async () => {
+	const result = tstl.transpileProject(path.join(__dirname, "tests.tsconfig.json"));
+	expect(result.diagnostics).toHaveLength(0);
+
+
+	const lua = readFileSync(path.join(__dirname, "out", "tests", "test-module.lua"), "utf-8");
     expect(lua).toMatchSnapshot();
 });
