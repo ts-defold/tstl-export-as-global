@@ -1,5 +1,5 @@
 {
-  "name": "@ts-defold/tstl-export-as-global-plugin",
+  "name": "@ts-defold/tstl-export-as-global",
   "version": "0.0.1",
   "description": "TypeScriptToLua plugin that transforms exports into globals",
   "repository": {
