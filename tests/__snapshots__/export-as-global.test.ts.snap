@@ -23,6 +23,30 @@ update = ____exports.update
 "
 `;
 
+exports[`handles organic returns 1`] = `
+"--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local function try_return(self)
+    return \\"not-exported\\"
+end
+function ____exports.init(self)
+    if true then
+        return try_return(nil)
+    end
+end
+function ____exports.update(self, dt)
+    local val = dt * 100
+    local ____ = val * val
+end
+function ____exports.exported(self)
+    local ____ = \\"exported\\"
+end
+init = ____exports.init
+update = ____exports.update
+
+"
+`;
+
 exports[`works with modules 1`] = `
 "--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 -- Lua Library inline imports

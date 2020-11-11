@@ -2,13 +2,13 @@ import * as tstl from "typescript-to-lua";
 import * as ts from "typescript";
 import * as lua from "typescript-to-lua";
 import { SourceNode } from "source-map";
-import { Identifier } from "typescript-to-lua";
 
 function addGlobalExportTag(node: tstl.FunctionDefinition) {
   Object.assign(node, { __globalExport: true });
 }
 
 function hasGlobalExportTag(node: tstl.FunctionDefinition): boolean {
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
   // @ts-ignore
   return node.__globalExport === true;
 }
@@ -30,7 +30,7 @@ export default function(options: PluginOptions): tstl.Plugin {
     printer: (program, emitHost, fileName, block, luaLibFeatures) => {
       class Printer extends tstl.LuaPrinter {
         
-        private exportedMethodNames: Array<string> = []
+        private exportedMethodNames: Array<string> = [];
 
         // Gather the exported function definitions that have been tagged from the exports tables for methods that match our API
         public printFunctionDefinition(statement: lua.FunctionDefinition): SourceNode {
@@ -46,10 +46,15 @@ export default function(options: PluginOptions): tstl.Plugin {
         
         // Hook the printing of the return to swap it with a block of exports for the API interface (only for matching script types)
         public printReturnStatement(statement: tstl.ReturnStatement): SourceNode {
-          const identifier = (statement as tstl.ReturnStatement).expressions[0] as Identifier;
-          if (fileMatcher.test(fileName) && identifier.exportable && identifier.text === "____exports") {
-            const injectedStatements = this.exportedMethodNames.map(n => tstl.createAssignmentStatement(tstl.createIdentifier(n), tstl.createIdentifier(`____exports.${n}`)));
-            return super.printBlock(tstl.createBlock(injectedStatements));
+          if (tstl.isReturnStatement(statement)) {
+            const expressions = (statement as tstl.ReturnStatement).expressions;
+            if (expressions.length > 0 && tstl.isIdentifier(expressions[0])) {
+              const identifier = expressions[0] as tstl.Identifier;
+              if (fileMatcher.test(fileName) && identifier.exportable && identifier.text === "____exports") {
+                const injectedStatements = this.exportedMethodNames.map(n => tstl.createAssignmentStatement(tstl.createIdentifier(n), tstl.createIdentifier(`____exports.${n}`)));
+                return super.printBlock(tstl.createBlock(injectedStatements));
+              }
+            }
           }
           
           return super.printReturnStatement(statement);
@@ -79,5 +84,5 @@ export default function(options: PluginOptions): tstl.Plugin {
         return tstl.createBlock(statements);
       },
     },
-  }
-};
+  };
+}
