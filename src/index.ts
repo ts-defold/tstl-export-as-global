@@ -27,7 +27,7 @@ export default function(options: PluginOptions): tstl.Plugin {
   const fileMatcher = new RegExp(options.match ? options.match : ".*");
 
   return {
-    printer: (program, emitHost, fileName, block, luaLibFeatures) => {
+    printer: (program, emitHost, fileName, file) => {
       class Printer extends tstl.LuaPrinter {
         
         private exportedMethodNames: Array<string> = [];
@@ -61,15 +61,14 @@ export default function(options: PluginOptions): tstl.Plugin {
         }
       }
 
-      return new Printer(emitHost, program, fileName).print(block, luaLibFeatures);
+      return new Printer(emitHost, program, fileName).print(file);
     },
 
     visitors: {
       [ts.SyntaxKind.SourceFile]: (node, context) => {
-        const [block] = context.superTransformNode(node) as [tstl.Block];
-        const statements = block.statements;
-
-
+        const [file] = context.superTransformNode(node) as [tstl.File];
+        const statements = file.statements;
+        
         for (const statement of statements) {
           if (tstl.isAssignmentStatement(statement) && tstl.isFunctionDefinition(statement) && lua.isTableIndexExpression(statement.left[0])) {
             const table = statement.left[0];
@@ -81,7 +80,7 @@ export default function(options: PluginOptions): tstl.Plugin {
           }
         }
 
-        return tstl.createBlock(statements);
+        return tstl.createFile(statements, file.luaLibFeatures, file.trivia);
       },
     },
   };
