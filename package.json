@@ -29,7 +29,6 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "typescript": "^4.3.5 || ^5",
     "typescript-to-lua": "^1.0.0"
   },
   "devDependencies": {
