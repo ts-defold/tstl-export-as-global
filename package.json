@@ -25,6 +25,7 @@
     "dist/**/*.js"
   ],
   "scripts": {
+    "prepublishOnly": "npm run test && npm run build",
     "build": "tsc",
     "test": "jest"
   },
