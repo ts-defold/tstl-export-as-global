@@ -25,7 +25,8 @@
                 "name": "../src/index.ts",
                 "match": ".*script.ts$",
                 "globals": { 
-                    "functions": [ "init", "on_input", "on_message", "on_reload", "update", "final"]
+                    "functions": [ "init", "on_input", "on_message", "on_reload", "update", "final"],
+                    "vars": ["who", "what", "where", "when"]
                 }
             }
         ]
