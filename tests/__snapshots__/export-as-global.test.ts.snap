@@ -47,6 +47,23 @@ update = ____exports.update
 "
 `;
 
+exports[`handles variables 1`] = `
+"--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+local ____exports = {}
+local who = \\"BAR\\"
+____exports.what = \\"FOO\\"
+____exports.where = 1000
+____exports.when = function() return 2000 end
+____exports.dontMakeThisGlobal = 3000
+____exports.who = who
+what = ____exports.what
+where = ____exports.where
+when = ____exports.when
+who = ____exports.who
+
+"
+`;
+
 exports[`works with modules 1`] = `
 "--[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 -- Lua Library inline imports

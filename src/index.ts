@@ -33,25 +33,17 @@ export default function(options: PluginOptions): tstl.Plugin {
         private exportedNames: Array<string> = [];
 
         // Gather the exported definitions that have been tagged from the exports tables for methods or variables that match our API
-        public printVariableDeclarationStatement(statement: lua.VariableDeclarationStatement): SourceNode {
-          statement.left.forEach((declaration) => {
-            if (hasGlobalExportTag(declaration)) {
-              this.exportedNames.push(declaration.text);
+        public printVariableAssignmentStatement(statement: tstl.AssignmentStatement): SourceNode {
+          statement.left.forEach((leftExpression) => {
+            if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(leftExpression)) {
+              const table = leftExpression;
+              if (lua.isStringLiteral(table.index)) {
+                this.exportedNames.push(table.index.value);
+              }
             }
           });
-
-          return super.printVariableDeclarationStatement(statement);
-        }
-
-        public printFunctionDefinition(statement: lua.FunctionDefinition): SourceNode {
-          if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(statement.left[0])) {
-            const table = statement.left[0];
-            if (lua.isStringLiteral(table.index)) {
-              this.exportedNames.push(table.index.value);
-            }
-          }
-
-          return super.printFunctionDefinition(statement);
+      
+          return super.printVariableAssignmentStatement(statement);
         }
 
         // Hook the printing of the return to swap it with a block of exports for the API interface (only for matching script types)
@@ -83,20 +75,15 @@ export default function(options: PluginOptions): tstl.Plugin {
 
         if (fileMatcher.test(context.sourceFile.fileName)) {
           for (const statement of statements) {
-            if (tstl.isVariableDeclarationStatement(statement)) {
-              for (const declaration of statement.left) {
-                if (
-                  tstl.isIdentifier(declaration) &&
-                  options.globals.vars.includes(declaration.text)
-                ) {
-                  addGlobalExportTag(declaration);
-                }
-              }
-            } else if (tstl.isAssignmentStatement(statement) && lua.isTableIndexExpression(statement.left[0])) {
+            if (tstl.isAssignmentStatement(statement) && lua.isTableIndexExpression(statement.left[0])) {
               const table = statement.left[0];
               if (lua.isStringLiteral(table.index)) {
                 if (
-                  (options.globals.functions.includes(table.index.value) || options.globals.vars.includes(table.index.value))
+                  options.globals.functions.includes(table.index.value) && tstl.isFunctionDefinition(statement)
+                ) {
+                  addGlobalExportTag(statement);
+                } else if (
+                  options.globals.vars.includes(table.index.value)
                 ) {
                   addGlobalExportTag(statement);
                 }
