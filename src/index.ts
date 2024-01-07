@@ -34,9 +34,8 @@ export default function(options: PluginOptions): tstl.Plugin {
 
         // Gather the exported definitions that have been tagged from the exports tables for methods or variables that match our API
         public printVariableAssignmentStatement(statement: tstl.AssignmentStatement): SourceNode {
-          statement.left.forEach((leftExpression) => {
-            if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(leftExpression)) {
-              const table = leftExpression;
+          statement.left.forEach((table) => {
+            if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(table)) {
               if (lua.isStringLiteral(table.index)) {
                 this.exportedNames.push(table.index.value);
               }

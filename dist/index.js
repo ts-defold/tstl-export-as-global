@@ -41,9 +41,8 @@ function default_1(options) {
                 }
                 // Gather the exported definitions that have been tagged from the exports tables for methods or variables that match our API
                 printVariableAssignmentStatement(statement) {
-                    statement.left.forEach((leftExpression) => {
-                        if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(leftExpression)) {
-                            const table = leftExpression;
+                    statement.left.forEach((table) => {
+                        if (hasGlobalExportTag(statement) && lua.isTableIndexExpression(table)) {
                             if (lua.isStringLiteral(table.index)) {
                                 this.exportedNames.push(table.index.value);
                             }
