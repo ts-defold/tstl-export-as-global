@@ -10,7 +10,8 @@
       "name": "@ts-defold/tstl-export-as-global",
       "match": ".*script.ts$",
       "globals": { 
-        "functions": [ "init", "on_input", "on_message", "on_reload", "update", "final"]
+        "functions": [ "init", "on_input", "on_message", "on_reload", "update", "final"],
+        "vars": ["who", "what", "where", "when", "why"]
       }
     }
   ]
@@ -20,7 +21,7 @@ The config accpets some additional arguments that are required to make this plug
 - `match`: regex pattern of file names to match to apply export transformations to
 - `globals`: object that defines what to match to apply export transformations to
   - `functions`: array of names to match for export functions to expose as global
-  - `...`: PR welcome for matching constans, variables, etc if you need support.
+  - `vars`: array of names to match for exported variables to expose as global
 
 ## Features
 Transform this TypeScript (with config values from above):
